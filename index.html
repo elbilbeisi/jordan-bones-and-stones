@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>عيادة العظام والحصى الأردنية | د. حازم البلبيسي</title>
+<meta name="description" content="عيادة العظام والحصى الأردنية – عيادة الدكتور حازم البلبيسي للغدد الصم: هشاشة العظام، الكالسيوم والغدة جار الدرقية، حصى الكلى المتكررة، وصحة العظام لدى مرضى الكلى والسرطان. مجمع البسمة الطبي، جبل عمّان.">
+<meta property="og:title" content="عيادة العظام والحصى الأردنية | د. حازم البلبيسي">
+<meta property="og:description" content="عيادة العظام والحصى الأردنية – عيادة الدكتور حازم البلبيسي للغدد الصم: هشاشة العظام، الكالسيوم والغدة جار الدرقية، حصى الكلى المتكررة، وصحة العظام لدى مرضى الكلى والسرطان. مجمع البسمة الطبي، جبل عمّان.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_JO">
+<meta property="og:image" content="assets/logo.png">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+html{box-sizing:border-box;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;padding:0;padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+/* Layout: single RTL column, mineral palette; hero carries a DXA T-score ruler as the signature element */
+:root{
+  --bg:#F2F4F3;        /* limestone */
+  --surface:#FFFFFF;
+  --ink:#13302D;       /* deep mineral green */
+  --muted:#4F6662;
+  --line:#D5DDDB;
+  --accent:#1E6B72;    /* apatite teal */
+  --ochre:#B7832F;     /* stone */
+  --risk:#B4533A;
+  --placeholder-bg:#FFF4D6;
+  --placeholder-fg:#7A5A12;
+  --plate:#FFFFFF;
+  --font-display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --font-body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1A19;--surface:#162523;--ink:#E3ECEA;--muted:#A3B6B2;--line:#2A3D3A;
+  --accent:#5FB3BA;--ochre:#D7A65A;--risk:#E08A6F;--placeholder-bg:#3A3018;--placeholder-fg:#F1D58F;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1A19;--surface:#162523;--ink:#E3ECEA;--muted:#A3B6B2;--line:#2A3D3A;
+  --accent:#5FB3BA;--ochre:#D7A65A;--risk:#E08A6F;--placeholder-bg:#3A3018;--placeholder-fg:#F1D58F;color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.85;direction:rtl}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ochre);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--font-display);line-height:1.35;text-wrap:balance;margin:0}
+p{margin:0}
+.ph{background:var(--placeholder-bg);color:var(--placeholder-fg);padding:0 .35em;border-radius:4px;font-size:.92em;white-space:nowrap}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px;flex-wrap:wrap}
+.brand{font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--ink);text-decoration:none}
+.top nav{display:flex;gap:18px;flex-wrap:wrap;font-size:.95rem}
+.top nav a{color:var(--muted);text-decoration:none}
+.top nav a:hover{color:var(--accent)}
+
+/* hero */
+.hero{padding-block:56px 40px}
+.hero .wrap{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+.eyebrow{font-size:.85rem;letter-spacing:.04em;color:var(--ochre);font-weight:600}
+.hero h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:700;margin-top:10px}
+.hero h1 span{display:block;color:var(--accent);font-size:.62em;font-weight:600;margin-top:6px}
+.hero p.lead{margin-top:18px;color:var(--muted);max-width:34em}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;text-decoration:none;font-weight:600;font-size:.98rem;border:1.5px solid var(--accent)}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.btn.ghost{color:var(--accent)}
+
+/* T-score ruler */
+.ruler{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 20px 18px}
+.ruler h3{font-size:1rem;font-weight:600}
+.ruler .cap{font-size:.85rem;color:var(--muted);margin-top:4px}
+.scale{direction:ltr;margin-top:18px}
+.bar{display:grid;grid-template-columns:30% 30% 40%;height:16px;border-radius:8px;overflow:hidden}
+.bar i:nth-child(1){background:var(--risk)}
+.bar i:nth-child(2){background:var(--ochre)}
+.bar i:nth-child(3){background:var(--accent)}
+.ticks{position:relative;height:22px;font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.ticks span{position:absolute;top:4px;transform:translateX(-50%)}
+.zones{display:grid;grid-template-columns:30% 30% 40%;direction:ltr;font-size:.82rem;margin-top:2px}
+.zones b{direction:rtl;text-align:center;font-weight:600}
+.zones b:nth-child(1){color:var(--risk)}
+.zones b:nth-child(2){color:var(--ochre)}
+.zones b:nth-child(3){color:var(--accent)}
+
+/* sections */
+section{padding-block:52px;border-top:1px solid var(--line)}
+section{scroll-margin-top:96px}
+@media (max-width:820px){section{scroll-margin-top:150px}}
+.sec-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.sec-head h2{font-size:clamp(1.5rem,3.4vw,2rem)}
+.sec-head p{color:var(--muted);font-size:.95rem}
+
+.about{display:grid;grid-template-columns:1.3fr 1fr;gap:36px}
+.about > div{min-width:0}
+.about p+p{margin-top:14px}
+.creds{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.creds li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.creds li:last-child{border-bottom:0}
+.creds .k{font-family:var(--font-display);color:var(--accent);font-size:.9rem;min-width:5.5em}
+.latin{direction:ltr;unicode-bidi:isolate;font-family:var(--font-body);letter-spacing:.02em}
+
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.svc{background:var(--surface);padding:22px 20px;min-width:0}
+.svc .tag{font-size:.78rem;color:var(--ochre);font-weight:600}
+.svc h3{font-size:1.12rem;margin-top:4px}
+.svc p{color:var(--muted);font-size:.93rem;margin-top:8px;line-height:1.75}
+.note{margin-top:16px;font-size:.88rem;color:var(--muted)}
+
+.edu{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.edu > div{min-width:0}
+.edu.one{grid-template-columns:1fr;max-width:52em}
+.edu h3{font-size:1.15rem;margin-bottom:12px}
+.topics{display:flex;flex-wrap:wrap;gap:8px}
+.topics span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 14px;font-size:.92rem}
+.tools{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.tools a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;text-decoration:none;color:var(--ink)}
+.tools a:hover{border-color:var(--accent)}
+.tools small{display:block;color:var(--muted);font-size:.85rem}
+
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 22px}
+.rows{display:grid;gap:14px;margin:0}
+.rows div{display:grid;grid-template-columns:6.5em 1fr;gap:10px}
+.rows dt{color:var(--muted);font-size:.92rem}
+.rows dd{margin:0;font-weight:500;min-width:0}
+.card .ctas{margin-top:20px}
+
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+.sheets{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sheets a{display:flex;align-items:baseline;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 14px;text-decoration:none;color:var(--ink);font-size:.95rem;line-height:1.5;height:100%;box-sizing:border-box}
+.sheets a:hover{border-color:var(--accent)}
+.sheets a.wa{border-color:var(--accent);color:var(--accent);font-weight:600}
+.sheets .n{color:var(--ochre);font-family:var(--font-display);font-weight:600;min-width:1.3em}
+@media (max-width:520px){.sheets{grid-template-columns:1fr}}
+.refer{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.refer > div{min-width:0}
+.refer h3{font-size:1.15rem;margin-bottom:10px}
+.ticks-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ticks-list li{position:relative;padding-inline-start:1.4em;line-height:1.7}
+.ticks-list li::before{content:"";position:absolute;inset-inline-start:0;top:.7em;width:.55em;height:.55em;border-radius:2px;background:var(--ochre)}
+@media (max-width:820px){.refer{grid-template-columns:1fr}}
+.qa-list{display:grid;gap:0;border-top:1px solid var(--line);max-width:52em}
+.qa{border-bottom:1px solid var(--line)}
+.qa summary{cursor:pointer;list-style:none;padding-block:16px;font-family:var(--font-display);font-weight:600;font-size:1.08rem;display:flex;justify-content:space-between;gap:16px;align-items:baseline}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::after{content:"+";color:var(--accent);font-size:1.3rem;line-height:1;flex:none}
+.qa[open] summary::after{content:"−"}
+.qa p{margin:0 0 18px;color:var(--muted);max-width:44em}
+/* logos */
+.plate{background:var(--plate);border-radius:10px}
+.brand .plate{display:inline-flex;align-items:center;gap:10px;padding:5px 12px}
+.brand img{display:block;height:34px;width:auto}
+.logos{display:inline-flex;align-items:center;gap:18px;padding:14px 20px;margin-bottom:18px;flex-wrap:wrap;max-width:100%;box-sizing:border-box}
+.logos img{display:block;height:84px;width:auto;max-width:100%}
+@media (max-width:520px){.logos img{height:auto;width:100%}.brand img{height:26px}}
+/* news */
+.news-list{display:grid;gap:0;border-top:1px solid var(--line)}
+.post{display:grid;grid-template-columns:9.5em 1fr;gap:20px;padding-block:20px;border-bottom:1px solid var(--line)}
+.post > div{min-width:0}
+.post time{color:var(--ochre);font-size:.9rem;font-weight:600;font-variant-numeric:tabular-nums}
+.post h3{font-size:1.15rem}
+.post p{margin-top:8px;color:var(--muted);white-space:pre-line;overflow-wrap:anywhere}
+.empty{color:var(--muted);padding-block:18px}
+@media (max-width:520px){.post{grid-template-columns:1fr;gap:4px}}
+
+@media (max-width:820px){
+  .hero .wrap,.about,.edu,.contact{grid-template-columns:1fr}
+  .services{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){
+  .services{grid-template-columns:1fr}
+  .top nav{gap:12px;font-size:.88rem}
+  .hero{padding-block:36px 28px}
+}
+/* article tab: shown alone when #wod is the URL target */
+#wod{display:none;border-top:0;scroll-margin-top:100vh}
+#wod:target{display:block}
+main:has(#wod:target) > :not(#wod){display:none}
+.top nav a.tab{color:var(--accent);font-weight:600}
+.article{max-width:46em}
+.article .kicker{font-size:.85rem;color:var(--ochre);font-weight:600}
+.article h1{font-size:clamp(1.75rem,4.6vw,2.5rem);font-weight:700;margin-top:8px}
+.article .byline{color:var(--muted);margin-top:10px;font-weight:500}
+.article p{margin-top:16px}
+.article h2{font-size:clamp(1.2rem,2.6vw,1.4rem);color:var(--accent);margin-top:36px}
+.article .slogan{font-family:var(--font-display);color:var(--ink);font-weight:600}
+.article .close{margin-top:28px;padding:16px 20px;background:var(--surface);border-inline-start:4px solid var(--ochre);border-radius:8px;font-weight:500}
+.article .bio{margin-top:32px;padding-top:14px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted);font-style:italic}
+.article .back{display:inline-block;margin-top:24px}
+@media (prefers-reduced-motion:no-preference){.btn,.tools a{transition:border-color .2s,background .2s}}
+</style>
+</head>
+<body>
+<div id="page">
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="عيادة العظام والحصى الأردنية"><span class="plate"><img src="assets/logo.png" alt="Jordan Bones &amp; Stones Clinic" height="30"></span></a>
+    <nav aria-label="أقسام الموقع">
+      <a href="#about">عن الطبيب</a>
+      <a href="#services">الخدمات</a>
+      <a href="#referrals">للأطباء</a>
+      <a href="#news">الأخبار</a>
+      <a class="tab" href="#wod">اليوم العالمي لهشاشة العظام</a>
+      <a href="#education">تثقيف المرضى</a>
+      <a href="#faq">أسئلة شائعة</a>
+      <a href="#contact">التواصل والحجز</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <div class="logos plate"><img src="assets/logo.png" alt="شعار عيادة الدكتور حازم البلبيسي للغدد الصم وعيادة العظام والحصى الأردنية" height="84"></div>
+        <p class="eyebrow">مجمع البسمة الطبي · جبل عمّان</p>
+        <h1>عيادة العظام والحصى الأردنية
+          <span>عيادة الدكتور حازم البلبيسي للغدد الصم</span>
+        </h1>
+        <p class="lead">تشخيص وعلاج أمراض العظام والمعادن والغدد الصم: هشاشة العظام، الكالسيوم والغدة جار الدرقية، حصى الكلى المتكررة، وصحة العظام لدى مرضى الكلى والسرطان.</p>
+        <div class="ctas">
+          <a class="btn solid" href="#contact">احجز موعدًا</a>
+          <a class="btn ghost" href="#services">الخدمات</a>
+        </div>
+      </div>
+
+      <figure class="ruler" aria-label="مقياس نتيجة كثافة العظام T-score">
+        <h3>ماذا تعني نتيجة فحص كثافة العظام؟</h3>
+        <p class="cap">مؤشر <span class="latin">T-score</span> في فحص <span class="latin">DXA</span> لدى النساء بعد سن الأمل والرجال فوق الخمسين</p>
+        <div class="scale">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="ticks">
+            <span style="left:0%">−4</span>
+            <span style="left:30%">−2.5</span>
+            <span style="left:60%">−1</span>
+            <span style="left:100%">+1.5</span>
+          </div>
+        </div>
+        <div class="zones"><b>هشاشة</b><b>نقص الكثافة</b><b>طبيعي</b></div>
+        <p class="cap" style="margin-top:12px">الرقم وحده لا يكفي لقرار العلاج؛ نقيّم خطر الكسور بأدوات مثل <span class="latin">FRAX</span> مع التاريخ المرضي.</p>
+      </figure>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head"><h2>عن الطبيب</h2></div>
+      <div class="about">
+        <div>
+          <p>الدكتور حازم البلبيسي استشاري الغدد الصم، عمل خمسة عشر عامًا استشاريًا في أمراض الغدد قبل أن يُتم زمالة متخصصة في أمراض العظام والمعادن في جامعة واشنطن في سانت لويس بالولايات المتحدة الأمريكية.</p>
+          <p>يركّز عمله على هشاشة العظام وأسبابها الثانوية، واضطرابات العظام والمعادن المصاحبة لأمراض الكلى المزمنة، وحصى الكلى المتكررة، ونقص الفوسفاتاز، وصحة العظام لدى مرضى السرطان. له أبحاث منشورة في مجلات متخصصة في العظام وأمراض الكلى، وأوراق مقدَّمة في مؤتمرات الجمعية الأمريكية لأبحاث العظام والمعادن والجمعية الأمريكية للغدد.</p>
+        </div>
+        <ul class="creds">
+          <li><span class="k">الزمالة</span><span>أمراض العظام والمعادن، جامعة واشنطن في سانت لويس، الولايات المتحدة الأمريكية</span></li>
+          <li><span class="k">الشهادات</span><span class="latin">MBBS · MRCP(UK) · FRCP(Glasg) · ABIM · CCD</span></li>
+          <li><span class="k">كثافة العظام</span><span>معتمد في تفسير فحوص الكثافة <span class="latin">(CCD)</span>، ومساهم في أطلس <span class="latin">ISCD</span> لصور <span class="latin">DXA</span></span></li>
+          <li><span class="k">التعليم</span><span>ممتحن سريري في امتحان <span class="latin">MRCP PACES</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head"><h2>الخدمات والحالات</h2><p>العظام والمعادن أولًا، مع أمراض الغدد الصم عامة</p></div>
+      <div class="services">
+        <article class="svc"><p class="tag">العظام</p><h3>هشاشة العظام</h3><p>تقييم خطر الكسور، البحث عن الأسباب الثانوية، واختيار العلاج المناسب ومدته، بما في ذلك الحقن الوريدية والعلاجات البانية للعظم.</p></article>
+        <article class="svc"><p class="tag">العظام</p><h3>قراءة فحوص الكثافة</h3><p>مراجعة صور <span class="latin">DXA</span> نفسها لا التقرير فقط، وكشف الأخطاء الشائعة مثل تكلّسات الشرايين وتغيّرات الفقرات.</p></article>
+        <article class="svc"><p class="tag">المعادن</p><h3>الكالسيوم والغدة جار الدرقية</h3><p>فرط وقصور جار الدرقية، ارتفاع أو نقص الكالسيوم والفوسفات، ونقص فيتامين د.</p></article>
+        <article class="svc"><p class="tag">الحصى</p><h3>حصى الكلى المتكررة</h3><p>التقييم الأيضي بعد النوبة الأولى أو المتكررة، وتحليل بول ٢٤ ساعة، وخطة وقاية غذائية ودوائية.</p></article>
+        <article class="svc"><p class="tag">الكلى</p><h3>الكسور والاضطرابات في المعادن المصاحبة لأمراض الكلى المزمنة</h3><p>متابعة اضطرابات العظام والمعادن لدى مرضى الكلى وغسيل الكلى، بالتنسيق مع طبيب الكلى.</p></article>
+        <article class="svc"><p class="tag">الأورام</p><h3>صحة العظام لدى مرضى السرطان</h3><p>حماية العظام أثناء العلاج الهرموني لسرطان الثدي والبروستاتا، والعلاج المساند بالبسفوسفونيت.</p></article>
+        <article class="svc"><p class="tag">نادرة</p><h3>نقص الفوسفاتاز وأمراض العظام النادرة</h3><p>تشخيص نقص الفوسفاتاز <span class="latin">(HPP)</span> ولين العظام وأمراض العظام الوراثية.</p></article>
+        <article class="svc"><p class="tag">الغدد</p><h3>الغدة الدرقية</h3><p>اضطرابات الوظيفة والعقيدات، مع فحص الألتراساوند للرقبة داخل العيادة.</p></article>
+        <article class="svc"><p class="tag">الغدد</p><h3>أمراض الغدد الصم الأخرى</h3><p>السكري، الغدة النخامية والكظرية، واضطرابات الهرمونات.</p></article>
+      </div>
+      <p class="note">لا يُجرى فحص الكثافة داخل العيادة؛ أحضر صور الفحص والتقرير السابق إن وُجدت.</p>
+    </div>
+  </section>
+
+  <section id="referrals">
+    <div class="wrap">
+      <div class="sec-head"><h2>للأطباء المحوِّلين</h2><p>متى تحوّل المريض، وماذا ترسل معه؟</p></div>
+      <div class="refer">
+        <div>
+          <h3>متى يُفيد التحويل؟</h3>
+          <ul class="ticks-list">
+            <li>كسر بعد إصابة بسيطة، أو كسور تتكرر رغم العلاج</li>
+            <li>هشاشة العظام عند الرجال أو قبل سن الأمل</li>
+            <li>ارتفاع الكالسيوم أو هرمون جار الدرقية، أو انخفاضهما</li>
+            <li>حصى الكلى المتكررة أو الحصى في سن صغيرة</li>
+            <li>الكسور والاضطرابات في المعادن المصاحبة لأمراض الكلى المزمنة</li>
+            <li>انخفاض الفوسفاتاز القلوي غير المفسَّر <span class="latin">(HPP)</span></li>
+            <li>مرضى سرطان الثدي أو البروستاتا على العلاج الهرموني</li>
+            <li>نتائج كثافة عظام متناقضة أو لا تتفق مع الحالة السريرية</li>
+          </ul>
+        </div>
+        <div>
+          <h3>ماذا ترسل مع المريض؟</h3>
+          <ul class="ticks-list">
+            <li>صور فحص الكثافة <span class="latin">DXA</span> كاملة، لا التقرير وحده، والفحوص السابقة للمقارنة</li>
+            <li>آخر نتائج الكالسيوم والفوسفات و<span class="latin">PTH</span> وفيتامين د والفوسفاتاز القلوي ووظائف الكلى</li>
+            <li>قائمة الأدوية، ومدة أي علاج سابق للعظام</li>
+            <li>تحليل الحصى أو بول ٢٤ ساعة إن وُجد</li>
+          </ul>
+          <p class="note">للتحويل أو لمناقشة حالة: واتساب العيادة <span class="latin" style="user-select:all">079 510 7317</span>. يصلك رد مكتوب بعد زيارة المريض.</p>
+          <div class="ctas" style="margin-top:14px"><a class="btn solid small" href="https://wa.me/962795107317" target="_blank" rel="noopener">تحويل مريض عبر واتساب</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="news">
+    <div class="wrap">
+      <div class="sec-head"><h2>الأخبار والمستجدات</h2><p>نشاطات العيادة والمؤتمرات والإعلانات</p></div>
+      <div class="news-list" id="news-list"><p class="empty">لا توجد أخبار بعد.</p></div>
+    </div>
+  </section>
+
+  <section id="wod" aria-labelledby="wod-title">
+    <div class="wrap">
+      <article class="article">
+        <p class="kicker">اليوم العالمي لهشاشة العظام · ٢٠ تشرين الأول</p>
+        <h1 id="wod-title">الكسر الأول إنذار.. فلا تتجاهلوه</h1>
+        <p class="byline">د. حازم البلبيسي</p>
+
+        <p>يحتفي العالم في العشرين من تشرين الأول من كل عام باليوم العالمي لهشاشة العظام، ويحمل هذا العام شعار <span class="slogan">«ابنِ عظامك واحمِها وقوِّها مدى الحياة»</span>. وهو شعار يلخّص ما نحتاجه في الأردن تمامًا: أن نبني عظامًا قوية منذ الصغر، وأن نحميها في منتصف العمر، وأن نتحرك بسرعة حين تظهر أول علامة على ضعفها.</p>
+        <p>هشاشة العظام مرض صامت بكل معنى الكلمة. لا ألم ولا أعراض، حتى يأتي يوم تنكسر فيه عظمة الرسغ أو الفقرة أو الورك من سقطة بسيطة كان يمكن أن تمرّ دون أذى. وتشير أرقام المؤسسة الدولية لهشاشة العظام إلى أن امرأة من كل ثلاث، ورجلًا من كل خمسة، بعد سن الخمسين، سيتعرضون لكسر بسبب الهشاشة في حياتهم.</p>
+
+        <h2>لماذا يعنينا هذا في الأردن؟</h2>
+        <p>نعيش في بلد مشمس، ومع ذلك أظهرت دراسات أردنية عديدة انتشارًا واسعًا لنقص فيتامين د، بسبب قضاء معظم الوقت داخل البيوت والمكاتب، واللباس الذي يغطي معظم الجسم. ويضاف إلى ذلك انتشار التدخين والأرجيلة بين الرجال والنساء، والاستخدام الطويل للكورتيزون في علاج الربو والروماتيزم وغيرها، وقلة النشاط البدني. وهذه كلها عوامل تُضعف العظام بصمت.</p>
+        <p>ولا تقتصر الهشاشة على النساء بعد انقطاع الطمث كما يظن كثيرون. فالرجال يُصابون بها أيضًا، ونادرًا ما يُفحصون، وكسر الورك عندهم أخطر عواقب منه عند النساء.</p>
+
+        <h2>الكسر الأول: الفرصة الضائعة</h2>
+        <p>أخطر ما في المشهد أن كثيرًا من المرضى الذين يُكسر لديهم الرسغ أو الفقرة من سقطة بسيطة بعد الخمسين يُعالَج كسرهم بالجبس أو العملية، ثم يغادرون المستشفى دون أن يسأل أحد: لماذا انكسرت هذه العظمة أصلًا؟ والحقيقة أن الكسر الأول يضاعف تقريبًا خطر حدوث كسر آخر، وأعلى ما يكون هذا الخطر في السنتين التاليتين. أي أن الكسر الأول ليس حادثًا عابرًا، بل رسالة إنذار واضحة.</p>
+        <p>والخبر الجيد أن لدينا اليوم أدوات لتقييم خطر الكسور وعلاجات فعّالة تخفض خطر الكسور اللاحقة بشكل كبير. المشكلة ليست في غياب العلاج، بل في أننا لا نصل إلى المريض في الوقت المناسب.</p>
+
+        <h2>ما الذي يمكن أن يفعله كل واحد منا؟</h2>
+        <p>إذا تجاوزتِ الخامسة والستين، أو تجاوزتَ السبعين، أو كان لديك كسر سابق من سقطة بسيطة، أو تتناول الكورتيزون منذ أشهر، أو انقطعت الدورة الشهرية لديكِ قبل سن الخامسة والأربعين، فاطلب من طبيبك تقييمًا لخطر الكسور، قد يتضمن فحص كثافة العظام بحسب طبيعة حالتك. وتذكّر أن الكالسيوم من الطعام، كالحليب واللبن والأجبان والسردين والخضار الورقية، أفضل من الحبوب، وأن فيتامين د يُؤخذ بالجرعة التي يحددها الطبيب لا بجرعات عالية عشوائية. والمشي اليومي، والإقلاع عن التدخين والأرجيلة، وتأمين البيت من السقوط، كلها خطوات بسيطة تحمي العظام.</p>
+
+        <h2>وما المطلوب من نظامنا الصحي؟</h2>
+        <p>نحتاج إلى أن يصبح تقييم خطر الكسور جزءًا ثابتًا من علاج أي كسر بعد الخمسين في مستشفياتنا، عبر ما يُعرف عالميًا بوحدات متابعة الكسور <span class="latin">(Fracture Liaison Services)</span>، التي ثبت أنها تقلل الكسور اللاحقة وتكاليفها. ونحتاج إلى تغطية تأمينية أوسع لتقييم خطر الكسور وعلاجها.</p>
+        <p>ونحتاج قبل ذلك كله إلى تعاون أوثق بين التخصصات. فجرّاح العظام <span class="latin">(Orthopaedic Surgeon)</span> يعالج الكسر نفسه، واختصاصي أمراض العظام الاستقلابية <span class="latin">(Osteologist / Metabolic Bone Specialist)</span> يبحث عن سبب الكسر ويعالج الهشاشة ليمنع الكسر التالي. وطبيب الغدد الصم <span class="latin">(Endocrinologist)</span> يكشف أمراض الدرقية وجارات الدرقية ونقص الهرمونات التي تُضعف العظام، وطبيب النسائية <span class="latin">(Gynaecologist)</span> يرى المرأة عند انقطاع الطمث، وهي اللحظة الأنسب للوقاية. وأطباء الروماتيزم <span class="latin">(Rheumatologists)</span> والكلى <span class="latin">(Nephrologists)</span> والأورام <span class="latin">(Oncologists)</span> يصفون علاجات قد تؤثر في العظام، أما طبيب الأسرة <span class="latin">(Family Physician)</span> يعرف المريض أكثر من غيره. علاج الكسر وحده لا يكفي، وكل مريض يغادر المستشفى بعد كسر دون خطة لحماية عظامه هو مريض سقط بين التخصصات.</p>
+
+        <p class="close">في هذا اليوم العالمي، رسالتي بسيطة: لا تنتظروا الكسر الثاني. فالعظام التي نبنيها ونحميها اليوم هي التي تحملنا غدًا.</p>
+
+        <p class="bio">د. حازم البلبيسي، استشاري الغدد الصم، متخصص في أمراض العظام والمعادن الاستقلابية، وزميل جامعة واشنطن في سانت لويس.</p>
+        <a class="btn ghost small back" href="#top">العودة إلى الصفحة الرئيسية</a>
+      </article>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap">
+      <div class="sec-head"><h2>تثقيف المرضى</h2><p>سلسلة نشرات «صحة العظام»</p></div>
+      <div class="edu one">
+        <div>
+          <h3>سلسلة «صحة العظام»</h3>
+          <ol class="sheets">
+            <li><a href="https://drive.google.com/file/d/1uq2eu0D75hKcMDuLTyjijAqS7vm7bnBj/view" target="_blank" rel="noopener"><span class="n">١</span>هشاشة العظام</a></li>
+            <li><a href="https://drive.google.com/file/d/1eO5TxWdsQHcoLudfY_SLa1h8AmY4j-w-/view" target="_blank" rel="noopener"><span class="n">٢</span>فيتامين د والكالسيوم</a></li>
+            <li><a href="https://drive.google.com/file/d/1UoNbwxaSN15Ct4PkSZcCVY7e9GjQmhVM/view" target="_blank" rel="noopener"><span class="n">٣</span>السقوط والكسر الأول</a></li>
+            <li><a class="wa" href="https://wa.me/c/962795107317" target="_blank" rel="noopener"><span class="n">+</span>النشرات ٤–١٢ في كتالوج واتساب العيادة</a></li>
+          </ol>
+          <p class="note">تفتح كل نشرة بصيغة PDF قابلة للطباعة. باقي السلسلة (الغدد جارات الدرقية، الأدوية، الكلى، الحصى، السرطان وغيرها) متاح في كتالوج واتساب.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head"><h2>أسئلة شائعة</h2></div>
+      <div class="qa-list">
+        <details class="qa"><summary>هل يُجرى فحص كثافة العظام في العيادة؟</summary><p>لا. يُجرى الفحص في مراكز الأشعة، ويمكنك الاتصال بالعيادة لترشيح مركز. أحضر صور الفحص كاملة لا التقرير وحده، وقد يُطلب منك مع الفحص صورة أشعة جانبية للعمود الفقري للكشف عن كسور الفقرات التي لا تسبب ألمًا.</p></details>
+        <details class="qa"><summary>كم مرة أعيد فحص الكثافة؟</summary><p>غالبًا كل سنة إلى سنتين أثناء العلاج. الأفضل أن يُعاد الفحص على الجهاز نفسه وفي المركز نفسه، لأن المقارنة بين أجهزة مختلفة غير دقيقة.</p></details>
+        <details class="qa"><summary>ماذا أحضر في الزيارة الأولى؟</summary><p>صور فحوص الكثافة السابقة وتقاريرها، ونتائج التحاليل خلال آخر ستة أشهر، وقائمة بأدويتك الحالية والسابقة، وأي تقرير أو تحليل لحصى الكلى.</p></details>
+        <details class="qa"><summary>هل أحتاج إلى الصيام قبل التحاليل؟</summary><p>بعض تحاليل العظام تُسحب صباحًا على الريق، وسيُحدَّد ذلك على ورقة طلب التحاليل. إن لم يُذكر الصيام فلا داعي له.</p></details>
+        <details class="qa"><summary>كيف أجمع بول ٢٤ ساعة؟</summary><p>تخلّص من أول بول عند الاستيقاظ وسجّل الوقت، ثم اجمع كل البول بعده حتى الوقت نفسه من صباح اليوم التالي، بما فيه أول بول ذلك الصباح. احفظ الوعاء في مكان بارد، واتبع تعليمات المختبر بشأن المادة الحافظة، وحافظ على أكلك وشربك المعتاد في ذلك اليوم.</p></details>
+        <details class="qa"><summary>ماذا عن التأمين والمواعيد والتكاليف؟</summary><p>اتصل بالعيادة على الرقم <span class="latin">06 463 6669</span> أو <span class="latin">079 510 7317</span>.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head"><h2>التواصل والحجز</h2></div>
+      <div class="contact">
+        <div class="card">
+          <dl class="rows">
+            <div><dt>العنوان</dt><dd>مجمع البسمة الطبي، عيادة رقم ٧٠٢<br>شارع أبو فراس الحمداني ٢٣، جبل عمّان</dd></div>
+            <div><dt>الهاتف</dt><dd><span class="latin" style="user-select:all">06 463 6669</span></dd></div>
+            <div><dt>الخلوي وواتساب</dt><dd><span class="latin" style="user-select:all">079 510 7317</span></dd></div>
+            <div><dt>ساعات الدوام</dt><dd>السبت – الأربعاء: ٩ صباحًا – ٤ مساءً<br>الخميس: ٩ صباحًا – ٢ ظهرًا<br>الجمعة: مغلق</dd></div>
+          </dl>
+          <p class="note">للاستفسار عن شركات التأمين ومراكز فحص الكثافة والمواعيد، اتصل بالعيادة.</p>
+          <div class="ctas">
+            <a class="btn solid" href="https://wa.me/962795107317" target="_blank" rel="noopener">احجز عبر واتساب</a>
+            <a class="btn ghost" href="https://maps.app.goo.gl/m9b2A7wjExLH7LbcA" target="_blank" rel="noopener">الموقع على الخريطة</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="font-size:1.1rem">قبل الزيارة الأولى</h3>
+          <ul style="margin:12px 0 0;padding-inline-start:1.2em;display:grid;gap:6px">
+            <li>صور فحص كثافة العظام وتقاريره، لا التقرير وحده</li>
+            <li>نتائج المختبر خلال آخر ستة أشهر</li>
+            <li>قائمة الأدوية الحالية والسابقة، ومنها علاجات العظام</li>
+            <li>تقارير الحصى أو تحليلها إن وُجدت</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>عيادة العظام والحصى الأردنية · عيادة الدكتور حازم البلبيسي للغدد الصم</span>
+    <span>المعلومات في هذا الموقع للتثقيف ولا تغني عن استشارة الطبيب.</span>
+  </div>
+</footer>
+</div>
+<script type="application/json" id="news-fallback">[{"id": "wod-2026", "date": "2026-10-20", "title": "مقال في اليوم العالمي لهشاشة العظام: الكسر الأول إنذار.. فلا تتجاهلوه", "body": "بمناسبة اليوم العالمي لهشاشة العظام (٢٠ تشرين الأول)، كتب الدكتور حازم البلبيسي مقالًا عن الكسر الأول بوصفه إنذارًا لا يجوز تجاهله.", "link": "#wod", "linkText": "اقرأ المقال كاملًا"}, {"id": "asbmr-2026", "date": "2026-10-10", "title": "بحثان في المؤتمر السنوي للجمعية الأمريكية لأبحاث العظام والمعادن ASBMR 2026", "body": "قدّم الدكتور حازم البلبيسي في بوسطن ملصقين علميين: الأول عن نظام تقييم سريري يساعد في تشخيص نقص الفوسفاتاز (HPP)، والثاني عن الوقاية من التهاب العنبية المصاحب لحقن البسفوسفونيت باستخدام قطرات الكورتيزون."}, {"id": "endo-2026", "date": "2026-06-14", "title": "حالتان في مؤتمر الجمعية الأمريكية للغدد ENDO 2026", "body": "عُرضت في شيكاغو حالتان عن أخطاء قراءة فحص كثافة العظام: ارتفاع كاذب في الكثافة لدى مريضة بسرطان الثدي وهشاشة العظام، وتأثير تكلّس الشرايين على نتائج الورك والساعد لدى مريض بأمراض الكلى المزمنة."}]</script>
+<script>
+(function () {
+  var listEl = document.getElementById("news-list");
+  function fmtDate(iso) {
+    try { return new Date(iso + "T12:00:00").toLocaleDateString("ar-JO", { year: "numeric", month: "long", day: "numeric" }); }
+    catch (e) { return iso; }
+  }
+  function render(news) {
+    listEl.innerHTML = "";
+    var items = (news || []).slice().sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
+    if (!items.length) { var p = document.createElement("p"); p.className = "empty"; p.textContent = "لا توجد أخبار بعد."; listEl.appendChild(p); return; }
+    items.forEach(function (n) {
+      var art = document.createElement("article"); art.className = "post";
+      var t = document.createElement("time"); t.dateTime = n.date; t.textContent = fmtDate(n.date);
+      var box = document.createElement("div");
+      var h = document.createElement("h3"); h.textContent = n.title;
+      var body = document.createElement("p"); body.textContent = n.body;
+      box.appendChild(h); box.appendChild(body);
+      if (n.link) { var a = document.createElement("a"); a.href = n.link; a.textContent = n.linkText || "اقرأ المزيد"; a.style.display = "inline-block"; a.style.marginTop = "8px"; box.appendChild(a); }
+      art.appendChild(t); art.appendChild(box); listEl.appendChild(art);
+    });
+  }
+  var fallback = [];
+  try { fallback = JSON.parse(document.getElementById("news-fallback").textContent) || []; } catch (e) {}
+  render(fallback);
+  fetch("news.json", { cache: "no-cache" })
+    .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+    .then(render)
+    .catch(function () {});
+})();
+</script>
+</body>
+</html>
