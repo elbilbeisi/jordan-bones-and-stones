@@ -238,17 +238,6 @@ a { color: var(--accent); }
           <label class="lbl" for="referrer" data-t="referrer"></label>
           <input type="text" id="referrer" name="referrer" dir="auto">
         </div>
-        <div class="field">
-          <span class="lbl" id="payLbl" data-t="pay"></span>
-          <div class="chips" role="radiogroup" aria-labelledby="payLbl">
-            <label class="chip"><input type="radio" name="pay" id="paySelf" value="self"><span data-t="paySelf"></span></label>
-            <label class="chip"><input type="radio" name="pay" id="payIns" value="ins"><span data-t="payIns"></span></label>
-          </div>
-        </div>
-        <div class="field" id="insWrap" hidden>
-          <label class="lbl" for="insurer" data-t="insurer"></label>
-          <input type="text" id="insurer" name="insurer" dir="auto">
-        </div>
       </fieldset>
 
       <fieldset>
@@ -325,7 +314,6 @@ a { color: var(--accent); }
       secVisit: "سبب الزيارة",
       reasons: "ما سبب زيارتك؟", reasonsHint: "يمكنك اختيار أكثر من سبب",
       reasonOther: "يرجى التوضيح", referrer: "الطبيب المُحوِّل (إن وُجد)",
-      pay: "طريقة الدفع", paySelf: "على حسابي الخاص", payIns: "تأمين صحي", insurer: "اسم شركة التأمين ورقم البطاقة",
       secMeds: "الأدوية والحساسية",
       meds: "الأدوية التي تتناولها حالياً", medsHint: "اكتب اسم الدواء والجرعة إن أمكن، بما فيها الفيتامينات والكالسيوم. يمكنك أيضاً إحضار العلب معك.",
       allergies: "حساسية من أدوية",
@@ -369,7 +357,6 @@ a { color: var(--accent); }
       secVisit: "Reason for visit",
       reasons: "Why are you coming to the clinic?", reasonsHint: "You can choose more than one",
       reasonOther: "Please specify", referrer: "Referring doctor (if any)",
-      pay: "Payment", paySelf: "Self-pay", payIns: "Health insurance", insurer: "Insurance company and card number",
       secMeds: "Medications and allergies",
       meds: "Medications you take now", medsHint: "Name and dose if you can, including vitamins and calcium. You can also bring the boxes with you.",
       allergies: "Drug allergies",
@@ -433,7 +420,6 @@ a { color: var(--accent); }
   // conditional fields
   function syncConditional() {
     $("otherWrap").hidden = !$("r_other").checked;
-    $("insWrap").hidden = !$("payIns").checked;
   }
   form.addEventListener("change", syncConditional);
 
@@ -451,7 +437,7 @@ a { color: var(--accent); }
       if (o._lang === "en" || o._lang === "ar") lang = o._lang;
       Object.keys(o).forEach((k) => {
         if (k === "reasons") o.reasons.forEach((r) => { const el = $("r_" + r); if (el) el.checked = true; });
-        else if (k === "sex" || k === "pay") { const el = form.querySelector('input[name="' + k + '"][value="' + o[k] + '"]'); if (el) el.checked = true; }
+        else if (k === "sex") { const el = form.querySelector('input[name="' + k + '"][value="' + o[k] + '"]'); if (el) el.checked = true; }
         else if (k === "confirm") $("confirm").checked = !!o.confirm;
         else if (form.elements[k] && typeof o[k] === "string") form.elements[k].value = o[k];
       });
@@ -504,7 +490,6 @@ a { color: var(--accent); }
     const sec = (k, rows) => '<div class="sh-sec"><h4>' + esc(d[k]) + "</h4><table>" + rows + "</table></div>";
     const age = ageFrom(o.dob);
     const reasons = (o.reasons || []).map((r) => d["r_" + r] + (r === "other" && o.reasonOther ? " (" + o.reasonOther.trim() + ")" : "")).join(lang === "ar" ? "، " : ", ");
-    const pay = o.pay === "self" ? d.paySelf : o.pay === "ins" ? d.payIns + (o.insurer ? " — " + o.insurer.trim() : "") : "";
     const today = new Date(); const td = String(today.getDate()).padStart(2, "0") + "/" + String(today.getMonth() + 1).padStart(2, "0") + "/" + today.getFullYear();
     const s = $("sheet");
     s.lang = lang; s.dir = lang === "ar" ? "rtl" : "ltr";
@@ -516,7 +501,7 @@ a { color: var(--accent); }
         row("dob", '<span dir="ltr">' + fmtDate(o.dob) + "</span>" + (age !== "" ? " · " + esc(d.sh_age) + " " + age + " " + esc(d.sh_years) : "")) +
         row("sex", o.sex ? esc(d[o.sex]) : d.dash) + row("natId", ltr(o.natId)) + row("nationality", v(o.nationality)) + row("occupation", v(o.occupation))) +
       sec("secContact", row("mobile", ltr(o.mobile)) + row("mobile2", ltr(o.mobile2)) + row("email", ltr(o.email)) + row("area", v(o.area))) +
-      sec("secVisit", row("reasons", v(reasons)) + row("referrer", v(o.referrer)) + row("pay", v(pay))) +
+      sec("secVisit", row("reasons", v(reasons)) + row("referrer", v(o.referrer))) +
       sec("secMeds", row("meds", v(o.meds)) + row("allergies", v(o.allergies))) +
       sec("secEmerg", row("emName", v(o.emName)) + row("emPhone", ltr(o.emPhone))) +
       '<div class="sh-office">' + esc(d.sh_office) + "</div>" +
@@ -582,14 +567,13 @@ a { color: var(--accent); }
   function summaryRows(o) {
     const a = T.ar; const val = (x) => (x && String(x).trim()) || "-";
     const reasons = (o.reasons || []).map((r) => a["r_" + r] + (r === "other" && o.reasonOther ? " (" + o.reasonOther.trim() + ")" : "")).join("، ");
-    const pay = o.pay === "self" ? a.paySelf : o.pay === "ins" ? a.payIns + (o.insurer ? " — " + o.insurer.trim() : "") : "-";
     const age = ageFrom(o.dob);
     return [
       [a.nameAr, val(o.nameAr)], [a.nameEn, val(o.nameEn)],
       [a.dob, fmtDate(o.dob) + (age !== "" ? " (" + age + " " + a.sh_years + ")" : "")],
       [a.sex, o.sex ? a[o.sex] : "-"], [a.natId, val(o.natId)], [a.nationality, val(o.nationality)], [a.occupation, val(o.occupation)],
       [a.mobile, val(o.mobile)], [a.mobile2, val(o.mobile2)], [a.email, val(o.email)], [a.area, val(o.area)],
-      [a.reasons, reasons || "-"], [a.referrer, val(o.referrer)], [a.pay, pay],
+      [a.reasons, reasons || "-"], [a.referrer, val(o.referrer)],
       [a.meds, val(o.meds)], [a.allergies, val(o.allergies)],
       [a.emName, val(o.emName)], [a.emPhone, val(o.emPhone)],
       ["لغة التعبئة", lang === "ar" ? "العربية" : "English"]
