@@ -253,20 +253,6 @@ a { color: var(--accent); }
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend data-t="secEmerg"></legend>
-        <div class="grid2">
-          <div class="field">
-            <label class="lbl" for="emName" data-t="emName"></label>
-            <input type="text" id="emName" name="emName" dir="auto">
-          </div>
-          <div class="field">
-            <label class="lbl" for="emPhone" data-t="emPhone"></label>
-            <input type="tel" id="emPhone" name="emPhone" class="ltr">
-          </div>
-        </div>
-      </fieldset>
-
       <div class="field" data-req="confirm">
         <label class="check"><input type="checkbox" id="confirm" name="confirm"><span data-t="confirm"></span></label>
       </div>
@@ -317,8 +303,6 @@ a { color: var(--accent); }
       secMeds: "الأدوية والحساسية",
       meds: "الأدوية التي تتناولها حالياً", medsHint: "اكتب اسم الدواء والجرعة إن أمكن، بما فيها الفيتامينات والكالسيوم. يمكنك أيضاً إحضار العلب معك.",
       allergies: "حساسية من أدوية",
-      secEmerg: "شخص للتواصل في حالات الطوارئ",
-      emName: "الاسم وصلة القرابة", emPhone: "رقم الهاتف",
       confirm: "أؤكد أن المعلومات أعلاه صحيحة، وأوافق على استخدامها في ملفي الطبي لدى العيادة.",
       make: "إرسال الاستمارة", making: "جارٍ الإرسال…",
       missing: "يرجى إكمال الحقول المطلوبة المؤشَّر عليها.",
@@ -360,8 +344,6 @@ a { color: var(--accent); }
       secMeds: "Medications and allergies",
       meds: "Medications you take now", medsHint: "Name and dose if you can, including vitamins and calcium. You can also bring the boxes with you.",
       allergies: "Drug allergies",
-      secEmerg: "Emergency contact",
-      emName: "Name and relationship", emPhone: "Phone",
       confirm: "I confirm the information above is correct, and I agree to its use in my clinic medical record.",
       make: "Submit form", making: "Sending…",
       missing: "Please complete the required fields marked with *.",
@@ -503,7 +485,6 @@ a { color: var(--accent); }
       sec("secContact", row("mobile", ltr(o.mobile)) + row("mobile2", ltr(o.mobile2)) + row("email", ltr(o.email)) + row("area", v(o.area))) +
       sec("secVisit", row("reasons", v(reasons)) + row("referrer", v(o.referrer))) +
       sec("secMeds", row("meds", v(o.meds)) + row("allergies", v(o.allergies))) +
-      sec("secEmerg", row("emName", v(o.emName)) + row("emPhone", ltr(o.emPhone))) +
       '<div class="sh-office">' + esc(d.sh_office) + "</div>" +
       '<div class="sh-foot"><span>' + esc(d.sh_addr) + '</span></div>';
     return s;
@@ -575,7 +556,6 @@ a { color: var(--accent); }
       [a.mobile, val(o.mobile)], [a.mobile2, val(o.mobile2)], [a.email, val(o.email)], [a.area, val(o.area)],
       [a.reasons, reasons || "-"], [a.referrer, val(o.referrer)],
       [a.meds, val(o.meds)], [a.allergies, val(o.allergies)],
-      [a.emName, val(o.emName)], [a.emPhone, val(o.emPhone)],
       ["لغة التعبئة", lang === "ar" ? "العربية" : "English"]
     ];
   }
