@@ -288,16 +288,9 @@ a { color: var(--accent); }
     <h2 data-t="doneTitle"></h2>
     <p data-t="doneText"></p>
     <div class="actions">
-      <button type="button" class="btn" id="shareBtn" data-t="share" hidden></button>
       <button type="button" class="btn ghost" id="saveBtn" data-t="save"></button>
     </div>
     <p class="status" id="doneStatus"></p>
-    <div class="num">
-      <span data-t="clinicWa"></span>
-      <b id="waNum">+962 79 510 7317</b>
-      <button type="button" class="linkbtn" id="copyNum" data-t="copy"></button>
-      <a id="waLink" href="https://wa.me/962795107317" target="_blank" rel="noopener" data-t="openWa"></a>
-    </div>
     <button type="button" class="linkbtn" id="editBtn" data-t="edit" style="justify-self:start"></button>
   </section>
 </div>
@@ -345,7 +338,7 @@ a { color: var(--accent); }
       doneTitle: "وصلت استمارتك إلى العيادة",
       doneText: "شكراً لك. سنراجع بياناتك قبل موعدك. يمكنك حفظ نسخة من الاستمارة لنفسك.",
       failTitle: "تعذّر إرسال الاستمارة",
-      failText: "لم تصل الاستمارة إلى العيادة. احفظ الملف ثم أرسله إلى رقم واتساب العيادة، أو استخدم زر الإرسال عبر واتساب.",
+      failText: "لم تصل الاستمارة إلى العيادة. يرجى المحاولة مرة أخرى بعد قليل، أو حفظ نسخة وإحضارها معك إلى الموعد.",
       share: "إرسال عبر واتساب", save: "حفظ نسخة",
       shareNo: "المشاركة غير متاحة على هذا الجهاز. احفظ الملف ثم أرسله إلى رقم العيادة.",
       saved: "تم حفظ الملف على جهازك.", saveFail: "تعذّر حفظ الملف على هذا الجهاز.",
@@ -389,7 +382,7 @@ a { color: var(--accent); }
       doneTitle: "The clinic has received your form",
       doneText: "Thank you. We will review your details before your appointment. You can save a copy of the form for yourself.",
       failTitle: "The form could not be sent",
-      failText: "Your form did not reach the clinic. Save the file and send it to the clinic WhatsApp number, or use the WhatsApp button.",
+      failText: "Your form did not reach the clinic. Please try again shortly, or save a copy and bring it to your appointment.",
       share: "Send on WhatsApp", save: "Save a copy",
       shareNo: "Sharing is not available on this device. Save the file, then send it to the clinic number.",
       saved: "The file was saved to your device.", saveFail: "The file could not be saved on this device.",
@@ -431,7 +424,6 @@ a { color: var(--accent); }
     $("langBtn").textContent = lang === "ar" ? "English" : "العربية";
     $("langBtn").lang = lang === "ar" ? "en" : "ar";
     document.title = d.title;
-    $("waLink").href = "https://wa.me/" + CLINIC_WA + "?text=" + encodeURIComponent(d.waText);
     if (!$("barStatus").dataset.busy) $("barStatus").textContent = d.draft;
     document.querySelectorAll(".err").forEach((e) => e.remove());
     document.querySelectorAll(".invalid").forEach((e) => e.classList.remove("invalid"));
@@ -528,7 +520,7 @@ a { color: var(--accent); }
       sec("secMeds", row("meds", v(o.meds)) + row("allergies", v(o.allergies))) +
       sec("secEmerg", row("emName", v(o.emName)) + row("emPhone", ltr(o.emPhone))) +
       '<div class="sh-office">' + esc(d.sh_office) + "</div>" +
-      '<div class="sh-foot"><span>' + esc(d.sh_addr) + '</span><span dir="ltr">WhatsApp +962 79 510 7317</span></div>';
+      '<div class="sh-foot"><span>' + esc(d.sh_addr) + '</span></div>';
     return s;
   }
 
@@ -619,9 +611,9 @@ a { color: var(--accent); }
     form.hidden = true; $("bar").hidden = true; $("done").hidden = false; $("doneStatus").textContent = "";
     document.querySelector("#done h2").setAttribute("data-t", ok ? "doneTitle" : "failTitle");
     document.querySelector("#done h2 + p").setAttribute("data-t", ok ? "doneText" : "failText");
-    $("shareBtn").hidden = ok || !pdfBlob;
     $("saveBtn").hidden = !pdfBlob;
-    $("saveBtn").classList.toggle("ghost", !ok);
+    $("saveBtn").classList.toggle("ghost", ok);
+    $("editBtn").hidden = ok;
     applyLang(); window.scrollTo(0, 0);
   }
   $("makeBtn").addEventListener("click", makePdf);
@@ -644,23 +636,6 @@ a { color: var(--accent); }
     } catch (e) { st.textContent = T[lang].saveFail; }
   }
   $("saveBtn").addEventListener("click", savePdf);
-
-  $("shareBtn").addEventListener("click", async () => {
-    if (!pdfBlob) return;
-    const file = new File([pdfBlob], pdfName, { type: "application/pdf" });
-    try {
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: T[lang].sh_title, text: T[lang].waText });
-        return;
-      }
-    } catch (e) { if (e && e.name === "AbortError") return; }
-    $("doneStatus").textContent = T[lang].shareNo;
-  });
-
-  $("copyNum").addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText("+" + CLINIC_WA); $("copyNum").textContent = T[lang].copied; }
-    catch (e) { const r = document.createRange(); r.selectNodeContents($("waNum")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
-  });
 
   $("editBtn").addEventListener("click", () => {
     $("done").hidden = true; form.hidden = false; $("bar").hidden = false; saveDraft();
