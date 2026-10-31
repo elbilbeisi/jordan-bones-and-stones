@@ -157,6 +157,7 @@ a { color: var(--accent); }
   </header>
 
   <form id="form" novalidate>
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
     <div style="display:grid;gap:20px">
       <fieldset>
         <legend data-t="secPersonal"></legend>
@@ -287,7 +288,7 @@ a { color: var(--accent); }
     <h2 data-t="doneTitle"></h2>
     <p data-t="doneText"></p>
     <div class="actions">
-      <button type="button" class="btn" id="shareBtn" data-t="share"></button>
+      <button type="button" class="btn" id="shareBtn" data-t="share" hidden></button>
       <button type="button" class="btn ghost" id="saveBtn" data-t="save"></button>
     </div>
     <p class="status" id="doneStatus"></p>
@@ -319,8 +320,8 @@ a { color: var(--accent); }
     ar: {
       eyebrow: "عيادة الدكتور حازم البلبيسي للغدد الصم · مجمع البسمة الطبي",
       title: "استمارة تسجيل مريض جديد",
-      lede: "يرجى تعبئة هذه الاستمارة قبل موعدك الأول. عند الانتهاء يُنشأ ملف PDF ترسله إلينا عبر واتساب، فيكون ملفك جاهزاً عند وصولك.",
-      privacy: "لا تُرسَل بياناتك إلى أي خادم. يُنشأ الملف على جهازك ولا يصل إلى العيادة إلا عندما ترسله أنت.",
+      lede: "يرجى تعبئة هذه الاستمارة قبل موعدك الأول. عند الانتهاء تُرسَل إلى العيادة مباشرة، فيكون ملفك جاهزاً عند وصولك.",
+      privacy: "تُرسَل إجاباتك إلى العيادة فقط عند الضغط على «إرسال الاستمارة»، ولا تُخزَّن على الموقع.",
       secPersonal: "البيانات الشخصية",
       nameAr: "الاسم الرباعي", nameArHint: "كما يظهر في الهوية الشخصية أو جواز السفر",
       nameEn: "الاسم بالإنجليزية (كما في جواز السفر)",
@@ -338,12 +339,14 @@ a { color: var(--accent); }
       secEmerg: "شخص للتواصل في حالات الطوارئ",
       emName: "الاسم وصلة القرابة", emPhone: "رقم الهاتف",
       confirm: "أؤكد أن المعلومات أعلاه صحيحة، وأوافق على استخدامها في ملفي الطبي لدى العيادة.",
-      make: "إنشاء ملف PDF", making: "جارٍ إنشاء الملف…",
+      make: "إرسال الاستمارة", making: "جارٍ الإرسال…",
       missing: "يرجى إكمال الحقول المطلوبة المؤشَّر عليها.",
       required: "هذا الحقل مطلوب", pickOne: "يرجى اختيار سبب واحد على الأقل", mustConfirm: "يرجى التأكيد للمتابعة",
-      doneTitle: "تم إنشاء الملف",
-      doneText: "اضغط «إرسال عبر واتساب» ثم اختر محادثة العيادة. إذا لم يظهر خيار المشاركة على جهازك، احفظ الملف ثم أرسله كمرفق إلى رقم العيادة.",
-      share: "إرسال عبر واتساب", save: "حفظ الملف",
+      doneTitle: "وصلت استمارتك إلى العيادة",
+      doneText: "شكراً لك. سنراجع بياناتك قبل موعدك. يمكنك حفظ نسخة من الاستمارة لنفسك.",
+      failTitle: "تعذّر إرسال الاستمارة",
+      failText: "لم تصل الاستمارة إلى العيادة. احفظ الملف ثم أرسله إلى رقم واتساب العيادة، أو استخدم زر الإرسال عبر واتساب.",
+      share: "إرسال عبر واتساب", save: "حفظ نسخة",
       shareNo: "المشاركة غير متاحة على هذا الجهاز. احفظ الملف ثم أرسله إلى رقم العيادة.",
       saved: "تم حفظ الملف على جهازك.", saveFail: "تعذّر حفظ الملف على هذا الجهاز.",
       clinicWa: "واتساب العيادة:", copy: "نسخ الرقم", copied: "تم النسخ", openWa: "فتح المحادثة",
@@ -361,8 +364,8 @@ a { color: var(--accent); }
     en: {
       eyebrow: "Hazem Bilbeisi Endocrine Clinic · Basma Medical Complex",
       title: "New Patient Registration",
-      lede: "Please complete this form before your first visit. When you finish, it creates a PDF that you send us on WhatsApp, so your file is ready when you arrive.",
-      privacy: "Your answers are not sent to any server. The PDF is created on your device and reaches the clinic only when you send it.",
+      lede: "Please complete this form before your first visit. When you finish, it goes straight to the clinic, so your file is ready when you arrive.",
+      privacy: "Your answers are sent to the clinic only when you tap “Submit form”. They are not stored on the website.",
       secPersonal: "Personal details",
       nameAr: "Full name (four parts)", nameArHint: "As it appears on your ID card or passport",
       nameEn: "Name in English (as in passport)",
@@ -380,12 +383,14 @@ a { color: var(--accent); }
       secEmerg: "Emergency contact",
       emName: "Name and relationship", emPhone: "Phone",
       confirm: "I confirm the information above is correct, and I agree to its use in my clinic medical record.",
-      make: "Create PDF", making: "Creating PDF…",
+      make: "Submit form", making: "Sending…",
       missing: "Please complete the required fields marked with *.",
       required: "This field is required", pickOne: "Please choose at least one reason", mustConfirm: "Please confirm to continue",
-      doneTitle: "Your PDF is ready",
-      doneText: "Tap “Send on WhatsApp” and choose the clinic chat. If sharing is not offered on your device, save the file and send it as an attachment to the clinic number.",
-      share: "Send on WhatsApp", save: "Save file",
+      doneTitle: "The clinic has received your form",
+      doneText: "Thank you. We will review your details before your appointment. You can save a copy of the form for yourself.",
+      failTitle: "The form could not be sent",
+      failText: "Your form did not reach the clinic. Save the file and send it to the clinic WhatsApp number, or use the WhatsApp button.",
+      share: "Send on WhatsApp", save: "Save a copy",
       shareNo: "Sharing is not available on this device. Save the file, then send it to the clinic number.",
       saved: "The file was saved to your device.", saveFail: "The file could not be saved on this device.",
       clinicWa: "Clinic WhatsApp:", copy: "Copy number", copied: "Copied", openWa: "Open chat",
@@ -405,6 +410,7 @@ a { color: var(--accent); }
   const DRAFT_KEY = "jbs-intake-draft-v1";
   let lang = "ar";
   let pdfBlob = null, pdfName = "";
+  const loadedAt = Date.now();
 
   const $ = (id) => document.getElementById(id);
   const form = $("form");
@@ -549,14 +555,53 @@ a { color: var(--accent); }
       const base = (o.nameEn || "").trim() || "Patient";
       pdfName = "Registration_" + base.replace(/[^A-Za-z0-9]+/g, "_").replace(/^_|_$/g, "") + "_" + new Date().toISOString().slice(0, 10) + ".pdf";
       if (pdfName.startsWith("Registration__")) pdfName = "Registration_" + new Date().toISOString().slice(0, 10) + ".pdf";
-      clearDraft();
-      form.hidden = true; $("bar").hidden = true; $("done").hidden = false; $("doneStatus").textContent = "";
-      window.scrollTo(0, 0);
+      const ok = await submitToClinic(o);
+      if (ok) clearDraft();
+      showDone(ok);
     } catch (e) {
       $("barStatus").textContent = (lang === "ar" ? "تعذّر إنشاء الملف. حاول مرة أخرى." : "The PDF could not be created. Please try again.");
     } finally {
       btn.disabled = false; delete $("barStatus").dataset.busy;
     }
+  }
+  function blobToB64(b) {
+    return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(",")[1] || ""); r.onerror = rej; r.readAsDataURL(b); });
+  }
+  function summaryRows(o) {
+    const a = T.ar; const val = (x) => (x && String(x).trim()) || "-";
+    const reasons = (o.reasons || []).map((r) => a["r_" + r] + (r === "other" && o.reasonOther ? " (" + o.reasonOther.trim() + ")" : "")).join("، ");
+    const pay = o.pay === "self" ? a.paySelf : o.pay === "ins" ? a.payIns + (o.insurer ? " — " + o.insurer.trim() : "") : "-";
+    const age = ageFrom(o.dob);
+    return [
+      [a.nameAr, val(o.nameAr)], [a.nameEn, val(o.nameEn)],
+      [a.dob, fmtDate(o.dob) + (age !== "" ? " (" + age + " " + a.sh_years + ")" : "")],
+      [a.sex, o.sex ? a[o.sex] : "-"], [a.natId, val(o.natId)], [a.nationality, val(o.nationality)], [a.occupation, val(o.occupation)],
+      [a.mobile, val(o.mobile)], [a.mobile2, val(o.mobile2)], [a.email, val(o.email)], [a.area, val(o.area)],
+      [a.reasons, reasons || "-"], [a.referrer, val(o.referrer)], [a.pay, pay],
+      [a.meds, val(o.meds)], [a.allergies, val(o.allergies)],
+      [a.emName, val(o.emName)], [a.emPhone, val(o.emPhone)],
+      ["لغة التعبئة", lang === "ar" ? "العربية" : "English"]
+    ];
+  }
+  async function submitToClinic(o) {
+    try {
+      const pdf = await blobToB64(pdfBlob);
+      const r = await fetch("/api/register", {
+        method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ name: o.nameAr, mobile: o.mobile, rows: summaryRows(o), pdf: pdf, filename: pdfName, website: $("website").value, elapsed: Date.now() - loadedAt })
+      });
+      if (!r.ok) return false;
+      const j = await r.json().catch(() => ({}));
+      return !!j.ok;
+    } catch (e) { return false; }
+  }
+  function showDone(ok) {
+    form.hidden = true; $("bar").hidden = true; $("done").hidden = false; $("doneStatus").textContent = "";
+    document.querySelector("#done h2").setAttribute("data-t", ok ? "doneTitle" : "failTitle");
+    document.querySelector("#done h2 + p").setAttribute("data-t", ok ? "doneText" : "failText");
+    $("shareBtn").hidden = ok;
+    $("saveBtn").classList.toggle("ghost", !ok);
+    applyLang(); window.scrollTo(0, 0);
   }
   $("makeBtn").addEventListener("click", makePdf);
   form.addEventListener("submit", (e) => { e.preventDefault(); makePdf(); });
