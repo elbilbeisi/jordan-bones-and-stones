@@ -277,9 +277,7 @@ a { color: var(--accent); }
   </div>
 </div>
 
-<div id="sheet" aria-hidden="true"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 (function () {
@@ -464,80 +462,123 @@ a { color: var(--accent); }
     return a >= 0 && a < 130 ? a : "";
   }
   function fmtDate(iso) { if (!iso) return ""; const [y, m, d] = iso.split("-"); return d + "/" + m + "/" + y; }
-  function buildSheet(o) {
-    const d = T[lang];
-    const v = (x) => (x && String(x).trim()) ? esc(String(x).trim()) : d.dash;
-    const ltr = (x) => (x && String(x).trim()) ? '<span dir="ltr">' + esc(String(x).trim()) + "</span>" : d.dash;
-    const row = (k, val) => '<tr><td class="k">' + esc(d[k]) + '</td><td class="v">' + val + "</td></tr>";
-    const sec = (k, rows) => '<div class="sh-sec"><h4>' + esc(d[k]) + "</h4><table>" + rows + "</table></div>";
-    const age = ageFrom(o.dob);
-    const reasons = (o.reasons || []).map((r) => d["r_" + r] + (r === "other" && o.reasonOther ? " (" + o.reasonOther.trim() + ")" : "")).join(lang === "ar" ? "، " : ", ");
-    const today = new Date(); const td = String(today.getDate()).padStart(2, "0") + "/" + String(today.getMonth() + 1).padStart(2, "0") + "/" + today.getFullYear();
-    const s = $("sheet");
-    s.lang = lang; s.dir = lang === "ar" ? "rtl" : "ltr";
-    s.innerHTML =
-      '<div class="sh-head"><img src="' + document.querySelector(".plate img").src + '" alt=""><div class="sh-meta">' + esc(d.sh_filled) + ': <span dir="ltr">' + td + "</span></div></div>" +
-      "<h3>" + esc(d.sh_title) + "</h3>" +
-      sec("secPersonal",
-        row("nameAr", v(o.nameAr)) + row("nameEn", ltr(o.nameEn)) +
-        row("dob", '<span dir="ltr">' + fmtDate(o.dob) + "</span>" + (age !== "" ? " · " + esc(d.sh_age) + " " + age + " " + esc(d.sh_years) : "")) +
-        row("sex", o.sex ? esc(d[o.sex]) : d.dash) + row("natId", ltr(o.natId)) + row("nationality", v(o.nationality)) + row("occupation", v(o.occupation))) +
-      sec("secContact", row("mobile", ltr(o.mobile)) + row("mobile2", ltr(o.mobile2)) + row("email", ltr(o.email)) + row("area", v(o.area))) +
-      sec("secVisit", row("reasons", v(reasons)) + row("referrer", v(o.referrer))) +
-      sec("secMeds", row("meds", v(o.meds)) + row("allergies", v(o.allergies))) +
-      '<div class="sh-office">' + esc(d.sh_office) + "</div>" +
-      '<div class="sh-foot"><span>' + esc(d.sh_addr) + '</span></div>';
-    return s;
+  const FONT_BASE = "/register-assets/";
+  let fontCache = null;
+  function abToB64(ab) {
+    const u = new Uint8Array(ab); let out = "";
+    for (let i = 0; i < u.length; i += 0x8000) out += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
+    return btoa(out);
   }
-
-  function isBlank(cv) {
-    try {
-      const w = Math.min(cv.width, 600), h = Math.min(cv.height, 800);
-      const px = cv.getContext("2d").getImageData(0, 0, w, h).data;
-      for (let i = 0; i < px.length; i += 4 * 97) { if (px[i] < 200 || px[i + 1] < 200 || px[i + 2] < 200) return false; }
-      return true;
-    } catch (e) { return false; }
+  async function loadFonts() {
+    if (fontCache) return fontCache;
+    const names = ["plex-r.ttf", "plex-sb.ttf", "amiri-b.ttf"];
+    const bufs = await Promise.all(names.map((n) => fetch(FONT_BASE + n).then((r) => { if (!r.ok) throw new Error("font " + n); return r.arrayBuffer(); })));
+    fontCache = bufs.map(abToB64);
+    return fontCache;
+  }
+  async function buildPdf(o) {
+    const fonts = await loadFonts();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "mm", format: "a4", compress: true });
+    doc.addFileToVFS("plex-r.ttf", fonts[0]); doc.addFont("plex-r.ttf", "plex", "normal");
+    doc.addFileToVFS("plex-sb.ttf", fonts[1]); doc.addFont("plex-sb.ttf", "plexsb", "normal");
+    doc.addFileToVFS("amiri-b.ttf", fonts[2]); doc.addFont("amiri-b.ttf", "amiri", "normal");
+    const d = T[lang], rtl = lang === "ar";
+    const L = 16, R = 194, BOTTOM = 279;
+    const INK = [19, 48, 45], MUTED = [79, 102, 98], LINE = [213, 221, 219], ACC = [30, 107, 114], BAND = [238, 244, 243];
+    const bidi = { isInputVisual: false, isOutputVisual: true, isInputRtl: rtl, isOutputRtl: false, isSymmetricSwapping: true };
+    const hasAr = (t) => /[؀-ۿ]/.test(t);
+    const put = (t, x, y, align) => { t = String(t); doc.text(t, x, y, Object.assign({ align: align }, hasAr(t) ? bidi : {})); };
+    const start = rtl ? R : L, startAlign = rtl ? "right" : "left";
+    const end = rtl ? L : R, endAlign = rtl ? "left" : "right";
+    // header
+    const logo = document.querySelector(".plate img").src;
+    const lh = 15, lw = lh * 900 / 257;
+    let y = 14;
+    try { doc.addImage(logo, "PNG", rtl ? R - lw : L, y, lw, lh); } catch (e) {}
+    const now = new Date();
+    const td = String(now.getDate()).padStart(2, "0") + "/" + String(now.getMonth() + 1).padStart(2, "0") + "/" + now.getFullYear();
+    doc.setFont("plex"); doc.setFontSize(9); doc.setTextColor.apply(doc, MUTED);
+    put(d.sh_filled + ": " + td, end, y + lh / 2 + 1.5, endAlign);
+    y += lh + 4;
+    doc.setDrawColor.apply(doc, ACC); doc.setLineWidth(0.6); doc.line(L, y, R, y);
+    y += 11;
+    if (rtl) { doc.setFont("amiri"); doc.setFontSize(21); } else { doc.setFont("plexsb"); doc.setFontSize(17); }
+    doc.setTextColor.apply(doc, INK);
+    put(d.sh_title, start, y, startAlign);
+    y += 6;
+    const LABEL_W = 56, GAP = 5, LH = 5.2, SIZE = 10.5;
+    const valueX = rtl ? R - 3 - LABEL_W - GAP : L + 3 + LABEL_W + GAP;
+    const valueW = rtl ? valueX - (L + 3) : (R - 3) - valueX;
+    function newPageIfNeeded(h) { if (y + h > BOTTOM) { doc.addPage(); y = 18; } }
+    function section(key) {
+      newPageIfNeeded(20);
+      y += 4;
+      doc.setFillColor.apply(doc, BAND); doc.roundedRect(L, y, R - L, 7.5, 1.2, 1.2, "F");
+      doc.setFont("plexsb"); doc.setFontSize(10.5); doc.setTextColor.apply(doc, ACC);
+      put(d[key], rtl ? R - 3 : L + 3, y + 5.1, startAlign);
+      y += 8.5;
+    }
+    function row(key, value) {
+      value = (value == null ? "" : String(value)).trim() || d.dash;
+      doc.setFontSize(SIZE);
+      doc.setFont("plex");
+      const labLines = doc.splitTextToSize(d[key], LABEL_W);
+      const valLines = [];
+      value.split(/\r?\n/).forEach((part) => { doc.splitTextToSize(part.trim() || " ", valueW).forEach((x) => valLines.push(x)); });
+      const h = Math.max(labLines.length, valLines.length) * LH + 3.2;
+      newPageIfNeeded(h);
+      doc.setTextColor.apply(doc, MUTED);
+      labLines.forEach((t, i) => put(t, rtl ? R - 3 : L + 3, y + 4.6 + i * LH, startAlign));
+      doc.setTextColor.apply(doc, INK);
+      valLines.forEach((t, i) => put(t, valueX, y + 4.6 + i * LH, startAlign));
+      y += h;
+      doc.setDrawColor.apply(doc, LINE); doc.setLineWidth(0.2); doc.line(L, y, R, y);
+    }
+    const age = ageFrom(o.dob);
+    const reasons = (o.reasons || []).map((r) => d["r_" + r] + (r === "other" && o.reasonOther ? " (" + o.reasonOther.trim() + ")" : "")).join(rtl ? "، " : ", ");
+    section("secPersonal");
+    row("nameAr", o.nameAr); row("nameEn", o.nameEn);
+    row("dob", fmtDate(o.dob) + (age !== "" ? " (" + age + " " + d.sh_years + ")" : ""));
+    row("sex", o.sex ? d[o.sex] : ""); row("natId", o.natId); row("nationality", o.nationality); row("occupation", o.occupation);
+    section("secContact");
+    row("mobile", o.mobile); row("mobile2", o.mobile2); row("email", o.email); row("area", o.area);
+    section("secVisit");
+    row("reasons", reasons); row("referrer", o.referrer);
+    section("secMeds");
+    row("meds", o.meds); row("allergies", o.allergies);
+    newPageIfNeeded(16);
+    y += 7;
+    doc.setDrawColor.apply(doc, LINE); doc.setLineWidth(0.3); doc.setLineDashPattern([1.2, 1], 0);
+    doc.rect(L, y, R - L, 9); doc.setLineDashPattern([], 0);
+    doc.setFont("plex"); doc.setFontSize(9); doc.setTextColor.apply(doc, MUTED);
+    put(d.sh_office, rtl ? R - 3 : L + 3, y + 5.8, startAlign);
+    const pages = doc.getNumberOfPages();
+    for (let i = 1; i <= pages; i++) {
+      doc.setPage(i);
+      doc.setDrawColor.apply(doc, LINE); doc.setLineWidth(0.2); doc.line(L, 286, R, 286);
+      doc.setFont("plex"); doc.setFontSize(8.5); doc.setTextColor.apply(doc, MUTED);
+      put(d.sh_addr, start, 291, startAlign);
+      if (pages > 1) put(i + " / " + pages, end, 291, endAlign);
+    }
+    return doc.output("blob");
   }
   async function makePdf() {
     const o = validate(); if (!o) return;
     const btn = $("makeBtn"); btn.disabled = true;
     $("barStatus").dataset.busy = "1"; $("barStatus").textContent = T[lang].making;
     try {
-      const sheet = buildSheet(o);
-      try { await document.fonts.ready; } catch (e) {}
-      const canvas = await window.html2canvas(sheet, {
-        scale: 2, backgroundColor: "#FFFFFF", useCORS: true, logging: false,
-        windowWidth: 900, windowHeight: Math.max(1200, sheet.scrollHeight + 100), scrollX: 0, scrollY: 0,
-        onclone: (doc) => {
-          const c = doc.getElementById("sheet");
-          c.style.position = "absolute"; c.style.left = "0px"; c.style.top = "0px";
-          doc.querySelectorAll("#app, #bar").forEach((el) => { el.style.display = "none"; });
-        }
-      });
-      const blank = isBlank(canvas);
       pdfBlob = null; pdfName = "";
-      if (!blank) {
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ unit: "mm", format: "a4", compress: true });
-      const pw = 210, ph = 297;
-      const pxPerMm = canvas.width / pw; const pageH = Math.floor(ph * pxPerMm);
-      for (let y = 0, i = 0; y < canvas.height; y += pageH, i++) {
-        const h = Math.min(pageH, canvas.height - y);
-        const c = document.createElement("canvas"); c.width = canvas.width; c.height = h;
-        const ctx = c.getContext("2d"); ctx.fillStyle = "#FFFFFF"; ctx.fillRect(0, 0, c.width, h); ctx.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
-        if (i) pdf.addPage();
-        pdf.addImage(c.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, pw, h / pxPerMm);
-      }
-      pdfBlob = pdf.output("blob");
-      const base = (o.nameEn || "").trim() || "Patient";
-      pdfName = "Registration_" + base.replace(/[^A-Za-z0-9]+/g, "_").replace(/^_|_$/g, "") + "_" + new Date().toISOString().slice(0, 10) + ".pdf";
-      if (pdfName.startsWith("Registration__")) pdfName = "Registration_" + new Date().toISOString().slice(0, 10) + ".pdf";
-      }
+      try {
+        pdfBlob = await buildPdf(o);
+        const base = (o.nameEn || "").trim().replace(/[^A-Za-z0-9]+/g, "_").replace(/^_|_$/g, "");
+        pdfName = "Registration_" + (base ? base + "_" : "") + new Date().toISOString().slice(0, 10) + ".pdf";
+      } catch (e) { pdfBlob = null; pdfName = ""; }
       const ok = await submitToClinic(o);
       if (ok) clearDraft();
       showDone(ok);
     } catch (e) {
-      $("barStatus").textContent = (lang === "ar" ? "تعذّر إنشاء الملف. حاول مرة أخرى." : "The PDF could not be created. Please try again.");
+      $("barStatus").textContent = (lang === "ar" ? "تعذّر الإرسال. حاول مرة أخرى." : "The form could not be sent. Please try again.");
     } finally {
       btn.disabled = false; delete $("barStatus").dataset.busy;
     }
