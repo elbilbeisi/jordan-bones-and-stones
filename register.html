@@ -79,8 +79,9 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="date"], 
   border: 1px solid var(--line); border-radius: 8px; padding: 11px 12px; text-align: start;
 }
 textarea { min-height: 88px; resize: vertical; }
-.dob { display: grid; grid-template-columns: 1fr 2fr 1.3fr; gap: 8px; }
-.dob select, .dob input { min-width: 0; }
+.dob { display: grid; grid-template-columns: minmax(6em, 1fr) 2fr; gap: 8px; }
+.dob #dobY { grid-column: 1 / -1; }
+.dob select, .dob input { min-width: 0; padding-inline: 10px 8px; }
 .formerr { display: none; background: var(--surface); border: 1px solid var(--risk); color: var(--risk); border-radius: 10px; padding: 12px 14px; font-weight: 500; }
 .formerr.show { display: block; }
 input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, .chip input:focus-visible + span {
@@ -286,7 +287,7 @@ a { color: var(--accent); }
       nameAr: "الاسم الرباعي", nameArHint: "كما يظهر في الهوية الشخصية أو جواز السفر",
       nameEn: "الاسم بالإنجليزية (كما في جواز السفر)",
       dob: "تاريخ الميلاد", sex: "الجنس", male: "ذكر", female: "أنثى",
-      dd: "اليوم", mm: "الشهر", yyyy: "السنة",
+      dd: "اليوم", mm: "الشهر", yyyy: "السنة", yyyyHint: "سنة الميلاد، مثال: 1965",
       months: ["كانون الثاني (1)", "شباط (2)", "آذار (3)", "نيسان (4)", "أيار (5)", "حزيران (6)", "تموز (7)", "آب (8)", "أيلول (9)", "تشرين الأول (10)", "تشرين الثاني (11)", "كانون الأول (12)"],
       badDate: "يرجى اختيار اليوم والشهر وكتابة سنة الميلاد (مثال: 1965)",
       missingList: "لم تُرسَل الاستمارة. يرجى إكمال: ",
@@ -331,7 +332,7 @@ a { color: var(--accent); }
       nameAr: "Full name (four parts)", nameArHint: "As it appears on your ID card or passport",
       nameEn: "Name in English (as in passport)",
       dob: "Date of birth", sex: "Sex", male: "Male", female: "Female",
-      dd: "Day", mm: "Month", yyyy: "Year",
+      dd: "Day", mm: "Month", yyyy: "Year", yyyyHint: "Year of birth, e.g. 1965",
       months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       badDate: "Please choose the day and month and type the year of birth (e.g. 1965)",
       missingList: "The form was not sent. Please complete: ",
@@ -435,7 +436,7 @@ a { color: var(--accent); }
     h = '<option value="">' + d.mm + "</option>";
     d.months.forEach((n, i) => { h += '<option value="' + (i + 1) + '">' + n + "</option>"; });
     $("dobM").innerHTML = h; $("dobM").value = mv;
-    $("dobY").placeholder = d.yyyy + " (1965)";
+    $("dobY").placeholder = d.yyyyHint;
   }
   function saveDraft() { try { const o = collect(); o._lang = lang; localStorage.setItem(DRAFT_KEY, JSON.stringify(o)); } catch (e) {} }
   function loadDraft() {
