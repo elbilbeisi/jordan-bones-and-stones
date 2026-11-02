@@ -40,6 +40,9 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+[hidden] { display: none !important; }
+.hp { position: absolute; top: 0; inset-inline-start: 0; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); opacity: 0; pointer-events: none; }
 body {
   background: var(--bg); color: var(--ink);
   font-family: var(--font-body); font-size: 16px; line-height: 1.6;
@@ -71,12 +74,16 @@ legend { font-family: var(--font-display); font-weight: 700; font-size: 21px; pa
 label.lbl, .lbl { font-weight: 500; font-size: 15px; }
 .req::after { content: " *"; color: var(--risk); }
 .hint { font-size: 13px; color: var(--muted); }
-input[type="text"], input[type="tel"], input[type="email"], input[type="date"], textarea {
+input[type="text"], input[type="tel"], input[type="email"], input[type="date"], select, textarea {
   width: 100%; font: 400 16px/1.4 var(--font-body); color: var(--ink); background: var(--bg);
   border: 1px solid var(--line); border-radius: 8px; padding: 11px 12px; text-align: start;
 }
 textarea { min-height: 88px; resize: vertical; }
-input:focus-visible, textarea:focus-visible, button:focus-visible, .chip input:focus-visible + span {
+.dob { display: grid; grid-template-columns: 1fr 2fr 1.3fr; gap: 8px; }
+.dob select, .dob input { min-width: 0; }
+.formerr { display: none; background: var(--surface); border: 1px solid var(--risk); color: var(--risk); border-radius: 10px; padding: 12px 14px; font-weight: 500; }
+.formerr.show { display: block; }
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, .chip input:focus-visible + span {
   outline: 2px solid var(--accent); outline-offset: 2px;
 }
 .ltr { direction: ltr; }
@@ -92,7 +99,7 @@ input:focus-visible, textarea:focus-visible, button:focus-visible, .chip input:f
 .check { display: flex; gap: 10px; align-items: flex-start; }
 .check input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--accent); flex: none; }
 .err { color: var(--risk); font-size: 13px; }
-.invalid input[type], .invalid textarea { border-color: var(--risk); }
+.invalid input[type], .invalid select, .invalid textarea { border-color: var(--risk); }
 .invalid .chip span { border-color: var(--risk); }
 
 .bar {
@@ -119,24 +126,6 @@ input:focus-visible, textarea:focus-visible, button:focus-visible, .chip input:f
 .linkbtn { background: none; border: none; color: var(--accent); font: 500 14px var(--font-body); cursor: pointer; padding: 4px; }
 a { color: var(--accent); }
 
-/* Off-screen A4 sheet that becomes the PDF */
-#sheet {
-  position: fixed; top: 0; left: -12000px; width: 794px; background: var(--sheet-bg); color: var(--sheet-ink);
-  font-family: var(--font-body); font-size: 14px; line-height: 1.55; padding: 44px 52px 40px;
-}
-#sheet .sh-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--sheet-accent); padding-bottom: 14px; }
-#sheet .sh-head img { height: 60px; }
-#sheet .sh-meta { text-align: end; font-size: 12px; color: var(--sheet-muted); }
-#sheet h3 { font-family: var(--font-display); font-size: 26px; margin: 18px 0 4px; color: var(--sheet-ink); }
-#sheet[lang="en"] h3 { font-family: var(--font-body); font-size: 21px; font-weight: 600; }
-#sheet .sh-sec { margin-top: 16px; }
-#sheet .sh-sec h4 { margin: 0 0 6px; font-size: 14px; font-weight: 600; color: var(--sheet-accent); background: var(--sheet-band); padding: 5px 10px; border-radius: 4px; }
-#sheet table { width: 100%; border-collapse: collapse; }
-#sheet td { border-bottom: 1px solid var(--sheet-line); padding: 6px 10px; vertical-align: top; }
-#sheet td.k { width: 34%; color: var(--sheet-muted); }
-#sheet td.v { white-space: pre-wrap; font-weight: 500; }
-#sheet .sh-foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid var(--sheet-line); font-size: 11.5px; color: var(--sheet-muted); display: flex; justify-content: space-between; gap: 12px; }
-#sheet .sh-office { margin-top: 18px; border: 1px dashed var(--sheet-line); padding: 10px 12px; font-size: 12px; color: var(--sheet-muted); }
 
 @media (prefers-reduced-motion: no-preference) { .btn, .chip span, .langbtn { transition: background-color .15s, color .15s; } }
 </style>
@@ -157,7 +146,7 @@ a { color: var(--accent); }
   </header>
 
   <form id="form" novalidate>
-    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
     <div style="display:grid;gap:20px">
       <fieldset>
         <legend data-t="secPersonal"></legend>
@@ -172,8 +161,12 @@ a { color: var(--accent); }
         </div>
         <div class="grid2">
           <div class="field" data-req="dob">
-            <label class="lbl req" for="dob" data-t="dob"></label>
-            <input type="date" id="dob" name="dob" autocomplete="bday">
+            <span class="lbl req" id="dobLbl" data-t="dob"></span>
+            <div class="dob" role="group" aria-labelledby="dobLbl">
+              <select id="dobD" name="dobD" aria-label="Day"></select>
+              <select id="dobM" name="dobM" aria-label="Month"></select>
+              <input type="text" id="dobY" name="dobY" class="ltr" inputmode="numeric" maxlength="4" autocomplete="bday-year" aria-label="Year">
+            </div>
           </div>
           <div class="field" data-req="sex">
             <span class="lbl req" id="sexLbl" data-t="sex"></span>
@@ -253,6 +246,7 @@ a { color: var(--accent); }
         </div>
       </fieldset>
 
+      <div class="formerr" id="formErr" role="alert"></div>
       <div class="field" data-req="confirm">
         <label class="check"><input type="checkbox" id="confirm" name="confirm"><span data-t="confirm"></span></label>
       </div>
@@ -292,6 +286,10 @@ a { color: var(--accent); }
       nameAr: "الاسم الرباعي", nameArHint: "كما يظهر في الهوية الشخصية أو جواز السفر",
       nameEn: "الاسم بالإنجليزية (كما في جواز السفر)",
       dob: "تاريخ الميلاد", sex: "الجنس", male: "ذكر", female: "أنثى",
+      dd: "اليوم", mm: "الشهر", yyyy: "السنة",
+      months: ["كانون الثاني (1)", "شباط (2)", "آذار (3)", "نيسان (4)", "أيار (5)", "حزيران (6)", "تموز (7)", "آب (8)", "أيلول (9)", "تشرين الأول (10)", "تشرين الثاني (11)", "كانون الأول (12)"],
+      badDate: "يرجى اختيار اليوم والشهر وكتابة سنة الميلاد (مثال: 1965)",
+      missingList: "لم تُرسَل الاستمارة. يرجى إكمال: ",
       natId: "الرقم الوطني أو رقم جواز السفر", nationality: "الجنسية", occupation: "المهنة",
       secContact: "معلومات الاتصال",
       mobile: "رقم الهاتف المحمول (واتساب)", mobile2: "رقم هاتف آخر", email: "البريد الإلكتروني", area: "منطقة السكن",
@@ -333,6 +331,10 @@ a { color: var(--accent); }
       nameAr: "Full name (four parts)", nameArHint: "As it appears on your ID card or passport",
       nameEn: "Name in English (as in passport)",
       dob: "Date of birth", sex: "Sex", male: "Male", female: "Female",
+      dd: "Day", mm: "Month", yyyy: "Year",
+      months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      badDate: "Please choose the day and month and type the year of birth (e.g. 1965)",
+      missingList: "The form was not sent. Please complete: ",
       natId: "National number or passport number", nationality: "Nationality", occupation: "Occupation",
       secContact: "Contact",
       mobile: "Mobile number (WhatsApp)", mobile2: "Other phone", email: "Email", area: "Area of residence",
@@ -388,6 +390,7 @@ a { color: var(--accent); }
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
     document.querySelectorAll("[data-t]").forEach((el) => { const k = el.getAttribute("data-t"); if (d[k] != null) el.textContent = d[k]; });
+    fillDobOptions();
     $("langBtn").textContent = lang === "ar" ? "English" : "العربية";
     $("langBtn").lang = lang === "ar" ? "en" : "ar";
     document.title = d.title;
@@ -404,11 +407,35 @@ a { color: var(--accent); }
   form.addEventListener("change", syncConditional);
 
   // draft (this device only)
+  function latinDigits(t) { return String(t || "").replace(/[\u0660-\u0669]/g, (c) => String(c.charCodeAt(0) - 0x0660)).replace(/[\u06F0-\u06F9]/g, (c) => String(c.charCodeAt(0) - 0x06F0)); }
+  function composeDob() {
+    const d = parseInt($("dobD").value, 10), m = parseInt($("dobM").value, 10);
+    const y = parseInt(latinDigits($("dobY").value).replace(/\D/g, ""), 10);
+    const now = new Date().getFullYear();
+    if (!d || !m || !y || y < 1900 || y > now) return "";
+    const dt = new Date(y, m - 1, d);
+    if (dt.getMonth() !== m - 1 || dt > new Date()) return "";
+    return y + "-" + String(m).padStart(2, "0") + "-" + String(d).padStart(2, "0");
+  }
   function collect() {
     const fd = new FormData(form);
     const o = {}; for (const [k, v] of fd.entries()) { if (k === "reasons") (o.reasons = o.reasons || []).push(v); else o[k] = v; }
+    o.dob = composeDob();
+    o.dobTouched = !!($("dobD").value || $("dobM").value || $("dobY").value);
+    ["mobile", "mobile2", "natId"].forEach((k) => { if (o[k]) o[k] = latinDigits(o[k]); });
     o.confirm = $("confirm").checked;
     return o;
+  }
+  function fillDobOptions() {
+    const d = T[lang];
+    const dv = $("dobD").value, mv = $("dobM").value;
+    let h = '<option value="">' + d.dd + "</option>";
+    for (let i = 1; i <= 31; i++) h += '<option value="' + i + '">' + i + "</option>";
+    $("dobD").innerHTML = h; $("dobD").value = dv;
+    h = '<option value="">' + d.mm + "</option>";
+    d.months.forEach((n, i) => { h += '<option value="' + (i + 1) + '">' + n + "</option>"; });
+    $("dobM").innerHTML = h; $("dobM").value = mv;
+    $("dobY").placeholder = d.yyyy + " (1965)";
   }
   function saveDraft() { try { const o = collect(); o._lang = lang; localStorage.setItem(DRAFT_KEY, JSON.stringify(o)); } catch (e) {} }
   function loadDraft() {
@@ -427,6 +454,16 @@ a { color: var(--accent); }
   form.addEventListener("input", saveDraft);
   form.addEventListener("change", saveDraft);
 
+  function logEvent(ev, extra) {
+    try {
+      const body = JSON.stringify(Object.assign({ ev: ev, lang: lang, ua: navigator.userAgent.slice(0, 200) }, extra || {}));
+      if (navigator.sendBeacon) navigator.sendBeacon("/api/register-log", new Blob([body], { type: "application/json" }));
+      else fetch("/api/register-log", { method: "POST", headers: { "content-type": "application/json" }, body: body, keepalive: true });
+    } catch (e) {}
+  }
+  window.addEventListener("error", (e) => { logEvent("jserror", { msg: String(e.message || "").slice(0, 200), line: e.lineno || 0 }); });
+  logEvent("open");
+
   // validation
   function markInvalid(key, msgKey) {
     const box = form.querySelector('[data-req="' + key + '"]') || $("confirm").closest(".field");
@@ -439,17 +476,22 @@ a { color: var(--accent); }
     document.querySelectorAll(".invalid").forEach((e) => e.classList.remove("invalid"));
     const o = collect(); const bad = [];
     if (!(o.nameAr || "").trim()) bad.push(markInvalid("nameAr", "required"));
-    if (!o.dob) bad.push(markInvalid("dob", "required"));
+    if (!o.dob) bad.push(markInvalid("dob", o.dobTouched ? "badDate" : "required"));
     if (!o.sex) bad.push(markInvalid("sex", "required"));
     if (!(o.mobile || "").trim()) bad.push(markInvalid("mobile", "required"));
     if (!o.reasons || !o.reasons.length) bad.push(markInvalid("reasons", "pickOne"));
     if (!o.confirm) bad.push(markInvalid("confirm", "mustConfirm"));
     if (bad.length) {
+      const names = bad.map((b) => { const l = b.querySelector(".lbl"); return l ? l.textContent : T[lang].confirm.slice(0, 30) + "…"; });
+      $("formErr").textContent = T[lang].missingList + names.join(lang === "ar" ? "، " : ", ");
+      $("formErr").classList.add("show");
+      logEvent("invalid", { fields: bad.map((b) => b.getAttribute("data-req")).join(",") });
       bad[0].scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
       const f = bad[0].querySelector("input,textarea"); if (f) f.focus({ preventScroll: true });
       $("barStatus").textContent = T[lang].missing;
       return null;
     }
+    $("formErr").classList.remove("show");
     return o;
   }
 
@@ -575,6 +617,7 @@ a { color: var(--accent); }
         pdfName = "Registration_" + (base ? base + "_" : "") + new Date().toISOString().slice(0, 10) + ".pdf";
       } catch (e) { pdfBlob = null; pdfName = ""; }
       const ok = await submitToClinic(o);
+      logEvent(ok ? "sent" : "sendfail", { pdf: pdfBlob ? 1 : 0 });
       if (ok) clearDraft();
       showDone(ok);
     } catch (e) {
@@ -646,7 +689,7 @@ a { color: var(--accent); }
     $("done").hidden = true; form.hidden = false; $("bar").hidden = false; saveDraft();
   });
 
-  loadDraft(); applyLang(); syncConditional();
+  fillDobOptions(); loadDraft(); applyLang(); syncConditional();
 })();
 </script>
 
