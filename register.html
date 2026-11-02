@@ -79,9 +79,6 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="date"], 
   border: 1px solid var(--line); border-radius: 8px; padding: 11px 12px; text-align: start;
 }
 textarea { min-height: 88px; resize: vertical; }
-.dob { display: grid; grid-template-columns: minmax(6em, 1fr) 2fr; gap: 8px; }
-.dob #dobY { grid-column: 1 / -1; }
-.dob select, .dob input { min-width: 0; padding-inline: 10px 8px; }
 .formerr { display: none; background: var(--surface); border: 1px solid var(--risk); color: var(--risk); border-radius: 10px; padding: 12px 14px; font-weight: 500; }
 .formerr.show { display: block; }
 input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, .chip input:focus-visible + span {
@@ -162,12 +159,8 @@ a { color: var(--accent); }
         </div>
         <div class="grid2">
           <div class="field" data-req="dob">
-            <span class="lbl req" id="dobLbl" data-t="dob"></span>
-            <div class="dob" role="group" aria-labelledby="dobLbl">
-              <select id="dobD" name="dobD" aria-label="Day"></select>
-              <select id="dobM" name="dobM" aria-label="Month"></select>
-              <input type="text" id="dobY" name="dobY" class="ltr" inputmode="numeric" maxlength="4" autocomplete="bday-year" aria-label="Year">
-            </div>
+            <label class="lbl req" for="dob" data-t="dob"></label>
+            <input type="date" id="dob" name="dob" autocomplete="bday">
           </div>
           <div class="field" data-req="sex">
             <span class="lbl req" id="sexLbl" data-t="sex"></span>
@@ -289,7 +282,7 @@ a { color: var(--accent); }
       dob: "تاريخ الميلاد", sex: "الجنس", male: "ذكر", female: "أنثى",
       dd: "اليوم", mm: "الشهر", yyyy: "السنة", yyyyHint: "سنة الميلاد، مثال: 1965",
       months: ["كانون الثاني (1)", "شباط (2)", "آذار (3)", "نيسان (4)", "أيار (5)", "حزيران (6)", "تموز (7)", "آب (8)", "أيلول (9)", "تشرين الأول (10)", "تشرين الثاني (11)", "كانون الأول (12)"],
-      badDate: "يرجى اختيار اليوم والشهر وكتابة سنة الميلاد (مثال: 1965)",
+      badDate: "يرجى اختيار تاريخ ميلاد صحيح",
       missingList: "لم تُرسَل الاستمارة. يرجى إكمال: ",
       natId: "الرقم الوطني أو رقم جواز السفر", nationality: "الجنسية", occupation: "المهنة",
       secContact: "معلومات الاتصال",
@@ -334,7 +327,7 @@ a { color: var(--accent); }
       dob: "Date of birth", sex: "Sex", male: "Male", female: "Female",
       dd: "Day", mm: "Month", yyyy: "Year", yyyyHint: "Year of birth, e.g. 1965",
       months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-      badDate: "Please choose the day and month and type the year of birth (e.g. 1965)",
+      badDate: "Please choose a valid date of birth",
       missingList: "The form was not sent. Please complete: ",
       natId: "National number or passport number", nationality: "Nationality", occupation: "Occupation",
       secContact: "Contact",
@@ -410,34 +403,21 @@ a { color: var(--accent); }
   // draft (this device only)
   function latinDigits(t) { return String(t || "").replace(/[\u0660-\u0669]/g, (c) => String(c.charCodeAt(0) - 0x0660)).replace(/[\u06F0-\u06F9]/g, (c) => String(c.charCodeAt(0) - 0x06F0)); }
   function composeDob() {
-    const d = parseInt($("dobD").value, 10), m = parseInt($("dobM").value, 10);
-    const y = parseInt(latinDigits($("dobY").value).replace(/\D/g, ""), 10);
-    const now = new Date().getFullYear();
-    if (!d || !m || !y || y < 1900 || y > now) return "";
-    const dt = new Date(y, m - 1, d);
-    if (dt.getMonth() !== m - 1 || dt > new Date()) return "";
-    return y + "-" + String(m).padStart(2, "0") + "-" + String(d).padStart(2, "0");
+    const v = $("dob").value;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return "";
+    return new Date(v + "T00:00:00") > new Date() ? "" : v;
   }
   function collect() {
     const fd = new FormData(form);
     const o = {}; for (const [k, v] of fd.entries()) { if (k === "reasons") (o.reasons = o.reasons || []).push(v); else o[k] = v; }
     o.dob = composeDob();
-    o.dobTouched = !!($("dobD").value || $("dobM").value || $("dobY").value);
+    o.dobTouched = !!$("dob").value;
     ["mobile", "mobile2", "natId"].forEach((k) => { if (o[k]) o[k] = latinDigits(o[k]); });
     o.confirm = $("confirm").checked;
     return o;
   }
-  function fillDobOptions() {
-    const d = T[lang];
-    const dv = $("dobD").value, mv = $("dobM").value;
-    let h = '<option value="">' + d.dd + "</option>";
-    for (let i = 1; i <= 31; i++) h += '<option value="' + i + '">' + i + "</option>";
-    $("dobD").innerHTML = h; $("dobD").value = dv;
-    h = '<option value="">' + d.mm + "</option>";
-    d.months.forEach((n, i) => { h += '<option value="' + (i + 1) + '">' + n + "</option>"; });
-    $("dobM").innerHTML = h; $("dobM").value = mv;
-    $("dobY").placeholder = d.yyyyHint;
-  }
+  function fillDobOptions() {}
+
   function saveDraft() { try { const o = collect(); o._lang = lang; localStorage.setItem(DRAFT_KEY, JSON.stringify(o)); } catch (e) {} }
   function loadDraft() {
     try {
