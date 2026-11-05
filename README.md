@@ -28,3 +28,9 @@ Edit `news.json` on GitHub (pencil icon) and add an entry at the top:
 ## Publishing
 
 Settings → Pages → Source: *Deploy from a branch* → `main` / `(root)`.
+
+## Where the live site lives (Nov 2026)
+The live pages at jordanbonesandstones.com are served by the Cloudflare Worker `jordan-bones-and-stones`
+from its KV namespace (keys: `index.html`, `wod.html`, `osteoporosis.html`, `privacy.html`, `news.json`, images).
+The HTML files in this repo are older copies and are only used if a KV key is missing.
+Do not copy files from this repo over the live site; dated backups are kept in KV (`*.backup-YYYY-MM-DD`).
